@@ -1,0 +1,19 @@
+{
+	"name": "user_authentication_system",
+	"version": "1.0.0",
+	"description": "",
+	"main": "src/index.ts",
+	"scripts": {
+		"test": "vitest",
+		"test:coverage": "echo \"Error: no test specified\" && exit 1",
+		"start": "",
+		"dev": "ts-node-dev --respawn --transpile-only src/index.ts"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"ts-node-dev": "^2.0.0",
+		"vitest": "^0.24.3"
+	}
+}
