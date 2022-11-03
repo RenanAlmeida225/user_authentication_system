@@ -2,8 +2,9 @@ import { User } from '../repository/protocol/user';
 import { UserRepository } from '../repository/protocol/userRepository';
 import { MissingParamError } from '../util/error/index';
 import { genId, PasswordHash, genToken } from '../util/helper/protocol/index';
+import { Singup } from './protocol/singup';
 
-export class Singup {
+export class SingupService implements Singup {
 	readonly #userRepository: UserRepository;
 	readonly #gentoken: genToken;
 	readonly #genId: genId;

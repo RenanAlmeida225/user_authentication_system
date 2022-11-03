@@ -3,7 +3,7 @@ import { User } from '../repository/protocol/user';
 import { UserRepository } from '../repository/protocol/userRepository';
 import { InvalidParamError, MissingParamError } from '../util/error/index';
 import { genToken, VerifyPasswordHash } from '../util/helper/protocol';
-import { Singin } from './signin';
+import { SinginService } from './signinService';
 
 const makeVerifyPasswordHash = () => {
 	class VerifyPassword implements VerifyPasswordHash {
@@ -51,7 +51,7 @@ const makeSut = () => {
 	const genPasswordHash = makeVerifyPasswordHash();
 	const gentoken = makeGenToken();
 	const repository = makeRepository();
-	const sut = new Singin(repository, gentoken, genPasswordHash);
+	const sut = new SinginService(repository, gentoken, genPasswordHash);
 	return { sut, genPasswordHash };
 };
 

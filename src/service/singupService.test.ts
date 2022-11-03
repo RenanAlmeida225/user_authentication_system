@@ -3,7 +3,7 @@ import { User } from '../repository/protocol/user';
 import { UserRepository } from '../repository/protocol/userRepository';
 import { MissingParamError } from '../util/error/index';
 import { genId, PasswordHash, genToken } from '../util/helper/protocol/index';
-import { Singup } from './singup';
+import { SingupService } from './singupService';
 
 const makeGenPasswordHash = () => {
 	class GenPasswordHash implements PasswordHash {
@@ -53,7 +53,7 @@ const makeSut = () => {
 	const genId = makeGenId();
 	const gentoken = makeGenToken();
 	const repository = makeRepository();
-	const sut = new Singup(repository, gentoken, genId, genPasswordHash);
+	const sut = new SingupService(repository, gentoken, genId, genPasswordHash);
 	return {
 		sut,
 		repository

@@ -2,8 +2,9 @@ import { User } from '../repository/protocol/user';
 import { UserRepository } from '../repository/protocol/userRepository';
 import { MissingParamError, InvalidParamError } from '../util/error/index';
 import { genToken, VerifyPasswordHash } from '../util/helper/protocol/index';
+import { Singin } from './protocol/signin';
 
-export class Singin {
+export class SinginService implements Singin {
 	readonly #userRepository: UserRepository;
 	readonly #gentoken: genToken;
 	readonly #verifyPassword: VerifyPasswordHash;
