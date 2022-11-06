@@ -1,3 +1,3 @@
-export interface genToken {
-	gen(id: string): string;
+export interface GenTokenHash {
+	hash(id: string): string;
 }

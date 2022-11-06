@@ -1,3 +1,3 @@
-export interface genId {
+export interface GenIdHash {
 	hash(): string;
 }

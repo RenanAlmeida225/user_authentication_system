@@ -7,6 +7,12 @@ export class Response {
 			body
 		};
 	}
+	static create(body: any): HttpResponse {
+		return {
+			status: 201,
+			body
+		};
+	}
 
 	static badRequest(error: Error): HttpResponse {
 		return {
@@ -19,7 +25,7 @@ export class Response {
 
 	static serverError(error: Error) {
 		return {
-			status: 200,
+			status: 500,
 			body: {
 				error: error.message
 			}
