@@ -1,3 +1,5 @@
 /node_modules
 .env
+*.sql
 project.txt
+test.ts
