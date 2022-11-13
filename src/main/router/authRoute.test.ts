@@ -51,6 +51,21 @@ describe('AuthRoute', () => {
 					expect(response.body).toEqual(res);
 				});
 		});
+		it('should return 400 if email is invalid', async () => {
+			const data = {
+				userName: 'any_userName',
+				email: 'any_emailmailcom',
+				password: 'any_password'
+			};
+			const res = { error: 'invalid param' };
+			await supertest(app)
+				.post('/api/v1/auth/register')
+				.send(data)
+				.expect(400)
+				.then(async response => {
+					expect(response.body).toEqual(res);
+				});
+		});
 
 		it('should return 201 if all params is provided', async () => {
 			const data = {
@@ -79,6 +94,20 @@ describe('AuthRoute', () => {
 				email: 'any_email@mail.com'
 			};
 			const res = { error: 'missing param' };
+			await supertest(app)
+				.post('/api/v1/auth/login')
+				.send(data)
+				.expect(400)
+				.then(async response => {
+					expect(response.body).toEqual(res);
+				});
+		});
+		it('should return 400 if email is invalid', async () => {
+			const data = {
+				email: 'invalid_emailmailcom',
+				password: 'any_password'
+			};
+			const res = { error: 'invalid param' };
 			await supertest(app)
 				.post('/api/v1/auth/login')
 				.send(data)
