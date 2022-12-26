@@ -5,6 +5,8 @@
 	"main": "src/index.ts",
 	"scripts": {
 		"test": "vitest",
+		"test:unit": "vitest --config ./vitest_unit.config.ts",
+		"test:integration": "vitest --config ./vitest_integration.config.ts",
 		"test:coverage": "echo \"Error: no test specified\" && exit 1",
 		"start": "",
 		"dev": "ts-node-dev --respawn --transpile-only src/main/server.ts",
