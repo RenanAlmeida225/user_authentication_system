@@ -1,6 +1,5 @@
 export * from './genId';
-export * from './genPasswordHash';
 export * from './genToken';
-export * from './verifyPasswordHash';
+export * from './token';
 export * from './emailValidator';
 export * from './encrypter';
