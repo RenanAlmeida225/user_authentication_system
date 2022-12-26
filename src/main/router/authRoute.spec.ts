@@ -2,7 +2,6 @@ import { afterEach, describe, expect, it } from 'vitest';
 import supertest from 'supertest';
 import app from '..';
 import connection from '../../data/repository/mysql/connection';
-import { AuthService } from '../../domain/service';
 import { makeAuthService } from '../factory';
 describe('AuthRoute', () => {
 	afterEach(async () => {

@@ -1,59 +1,48 @@
 import { describe, it, expect } from 'vitest';
 import { User, UserRepository } from '../../data/protocol';
 import { InvalidParamError, MissingParamError } from '../../util/error';
-import {
-	GenIdHash,
-	GenTokenHash,
-	PasswordHash,
-	VerifyPasswordHash
-} from '../../util/helper/protocol';
+import { Encrypter, Token, RandomId } from '../../util/helper/protocol';
 import { AuthService } from './authService';
 
-const makeVerifyPassword = () => {
-	class VerifyPassword implements VerifyPasswordHash {
+const makeRandomId = () => {
+	class RandomIdtest implements RandomId {
 		res: any;
-		verified(password: string, passwordHash: string): boolean {
+		generateId(): string {
 			return this.res;
 		}
 	}
-
-	const verifyPassword = new VerifyPassword();
-	verifyPassword.res = true;
-	return verifyPassword;
-};
-
-const makeGenPassword = () => {
-	class GenPassword implements PasswordHash {
-		res: any;
-		hash(password: string): string {
-			return this.res;
-		}
-	}
-	const genPassword = new GenPassword();
-	genPassword.res = 'any_passwordHash';
-	return genPassword;
-};
-
-const makeGenId = () => {
-	class GenId implements GenIdHash {
-		res: any;
-		hash(): string {
-			return this.res;
-		}
-	}
-	const genId = new GenId();
+	const genId = new RandomIdtest();
 	genId.res = 'any_idHash';
 	return genId;
 };
 
-const makeGenToken = () => {
-	class GenToken implements GenTokenHash {
+const makeEncrypter = () => {
+	class EncrypterTest implements Encrypter {
 		res: any;
-		hash(id: string): string {
+		genarateHash(value: string): string {
+			return this.res;
+		}
+		compareHash(value: string, hashedValue: string): boolean {
 			return this.res;
 		}
 	}
-	const genToken = new GenToken();
+
+	const verifyPassword = new EncrypterTest();
+	verifyPassword.res = 'hash';
+	return verifyPassword;
+};
+
+const makeToken = () => {
+	class TokenTest implements Token {
+		res: any;
+		generateToken(playload: string): string {
+			return this.res;
+		}
+		verifyToken(token: string): boolean {
+			return this.res;
+		}
+	}
+	const genToken = new TokenTest();
 	genToken.res = 'any_token';
 	return genToken;
 };
@@ -79,26 +68,18 @@ const makeRepository = () => {
 };
 
 const makeSut = () => {
-	const verifyPassword = makeVerifyPassword();
-	const genPassword = makeGenPassword();
-	const genId = makeGenId();
-	const genToken = makeGenToken();
+	const randomId = makeRandomId();
+	const encrypter = makeEncrypter();
+	const token = makeToken();
 	const repository = makeRepository();
-	const sut = new AuthService(
-		repository,
-		genToken,
-		genId,
-		genPassword,
-		verifyPassword
-	);
+	const sut = new AuthService(repository, token, encrypter, randomId);
 
 	return {
 		sut,
 		repository,
-		genToken,
-		genId,
-		genPassword,
-		verifyPassword
+		token,
+		encrypter,
+		randomId
 	};
 };
 
@@ -151,7 +132,7 @@ describe('AuthService', () => {
 				password: 'any_password'
 			};
 			const { sut, repository } = makeSut();
-			repository.res = undefined;
+			repository.res = null;
 			const promise = await sut.register(data);
 			expect(promise).toEqual('any_token');
 		});
@@ -174,8 +155,8 @@ describe('AuthService', () => {
 			expect(promise).rejects.toThrow(new InvalidParamError());
 		});
 		it('should throw if password is invalid', async () => {
-			const { sut, verifyPassword } = makeSut();
-			verifyPassword.res = false;
+			const { sut, encrypter } = makeSut();
+			encrypter.res = false;
 			const promise = sut.login('any_email@mail.com', 'invalid_password');
 			expect(promise).rejects.toThrow(new InvalidParamError());
 		});
