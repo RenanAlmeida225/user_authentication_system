@@ -1,17 +1,17 @@
 import { describe, it, expect } from 'vitest';
 import { User } from '../../data/protocol';
 import { Auth } from '../../domain/service/protocol';
-import { EmailValidator } from '../../util/helper/protocol';
+import { FieldsValidator } from '../../util/helper/protocol';
 import { RegisterController } from './registerController';
-const makeValidateEmail = () => {
-	class ValidateEmail implements EmailValidator {
+const makeFieldValidator = () => {
+	class FieldsValidatortest implements FieldsValidator {
 		res: any;
 		isEmail(email: string): boolean {
 			return this.res;
 		}
 	}
 
-	const validateEmail = new ValidateEmail();
+	const validateEmail = new FieldsValidatortest();
 	validateEmail.res = true;
 	return validateEmail;
 };
@@ -27,7 +27,7 @@ const makeServiceError = () => {
 	return new Service();
 };
 const makeSutError = () => {
-	const validateEmail = makeValidateEmail();
+	const validateEmail = makeFieldValidator();
 	const service = makeServiceError();
 	const sut = new RegisterController(service, validateEmail);
 	return {
@@ -51,7 +51,7 @@ const makeService = () => {
 };
 
 const makeSut = () => {
-	const validateEmail = makeValidateEmail();
+	const validateEmail = makeFieldValidator();
 	const service = makeService();
 	const sut = new RegisterController(service, validateEmail);
 	return {
